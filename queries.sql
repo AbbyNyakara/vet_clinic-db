@@ -24,10 +24,55 @@ SELECT * FROM animals WHERE name NOT IN ("Gabumon");
 -- 8.0 Find all animals with a weight between 10.4kg and 17.3kg (including the animals with the weights that equals precisely 10.4kg or 17.3kg)
 SELECT * FROM animals WHERE weight_kg >= 10.4 AND weight_kg <=17.3;
 
+-- Transactions in SQL 
+
+BEGIN;
+UPDATE animals
+SET  species = NULL;
+COMMIT;
+
+BEGIN;
+UPDATE animals
+SET species = "unspecified";
+ROLLBACK;
+
+
+BEGIN;
+UPDATE animals
+SET species = 'digimon'
+WHERE name LIKE '%mon';
+COMMIT;
+
+BEGIN;
+UPDATE animals
+SET species = 'pokemon'
+WHERE species IS NULL;
+COMMIT;
+
+BEGIN;
+DELETE FROM animals
+ROLLBACK;
+
+BEGIN;
+DELETE FROM animals
+WHERE date_of_birth > 2021-01-01;
+SAVEPOINT SVP1;
+UPDATE animals
+SET weight_kg = (weight_kg * -1);
+ROLLBACK;
+
+SELECT * FROM animals;
+
+
+BEGIN;
+UPDATE animals
+SET weight_kg = (weight_kg * -1)
+WHERE weight_kg < 0;
+COMMIT;
+
 -- Part 2 Questions
 
 -- 1. How many animals are there?
-
 SELECT COUNT(*) FROM animals;
 
 -- 2. How many animals have never tried to escape?
