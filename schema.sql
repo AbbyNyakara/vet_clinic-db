@@ -49,6 +49,46 @@ ADD owner_id INT;
 ALTER TABLE animals
 ADD FOREIGN KEY (owner_id) REFERENCES owners(id);
 
+ CREATE TABLE vets (
+ id INT AUTO_INCREMENT,
+ name VARCHAR(255),
+ age INT,
+ date_of_graduation DATE,
+ PRIMARY KEY(id)
+ );
+ 
+ CREATE TABLE specializations ( 
+id INT AUTO_INCREMENT,
+species_id INT,
+vet_id INT,
+PRIMARY KEY (id)
+);
+
+
+-- make the species id and the vet id foreign keys 
+ALTER TABLE specializations 
+ADD FOREIGN KEY (species_id) REFERENCES species(id);
+
+ALTER TABLE specializations
+ADD FOREIGN KEY (vet_id) REFERENCES vets(id);
+
+-- CREATE VISITS JOIN TABLE for relationship between animals and vets
+CREATE TABLE visits (
+id INT AUTO_INCREMENT,
+animal_id INT,
+vet_id INT,
+PRIMARY KEY(id)
+);
+
+-- CREATE FOREIGN KEYS TO REFERENCE THE RELATIONSHIPS 
+ALTER TABLE visits 
+ADD FOREIGN KEY (animal_id) REFERENCES animals(id);
+
+ALTER TABLE visits 
+ADD FOREIGN KEY (vet_id) REFERENCES vets(id);
+ 
+ ALTER TABLE visits 
+ADD COLUMN visit_date DATE; 
 
 
 
